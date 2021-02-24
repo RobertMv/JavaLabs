@@ -1,6 +1,6 @@
 package lab2;
 
-interface ThrowBiggerThanAnotherException {
+interface MyExceptions {
     void ThrowBiggerThanAnotherException() throws BiggerThanAnotherNumber;
 
     void ThrowArrayContainsMoreElementsThanSpecified() throws ArrayContainsMoreElementsThanSpecified;
