@@ -1,5 +1,29 @@
 package lab2;
 
+//++++++++++++++++++++++++++++++++
+interface IFunc {
+    int getF();
+}
+
+interface IConst {
+    int verConst = 100;
+}
+
+//+++++++++++++++++++++++++++++++++
+interface IConst11 {
+    int verConst = 101;
+}
+
+interface IConst22 {
+    int verConst = 102;
+}
+
+interface IConstT extends IConst11, IConst22 {
+    int verConst = 100;
+
+    int get(boolean b);
+}
+
 class Test {
     public static void main(String[] args) {
         SuperClass supC = new SuperClass(5, true);// Создать объект суперкласса
@@ -25,7 +49,7 @@ class Dan {
 
 class SuperClass {
     int x;
-    private boolean b;
+    private final boolean b;
 
     public SuperClass(int X, boolean B) {
         x = X;
@@ -52,15 +76,6 @@ class SubClass extends SuperClass {// Подкласс (sub class)
     }
 }
 
-//++++++++++++++++++++++++++++++++
-interface IFunc {
-    public int getF();
-}
-
-interface IConst {
-    public static final int verConst = 100;
-}
-
 class ClassInt implements IFunc, IConst {
     public int getF() {
         return verConst;
@@ -79,21 +94,6 @@ class TestInterface {
         System.out.println("verConst= " + iC.verConst);
         System.out.println("verConst= " + ClassInt.verConst);
     }
-}
-
-//+++++++++++++++++++++++++++++++++
-interface IConst11 {
-    static final int verConst = 101;
-}
-
-interface IConst22 {
-    int verConst = 102;
-}
-
-interface IConstT extends IConst11, IConst22 {
-    static final int verConst = 100;
-
-    int get(boolean b);
 }
 
 class ClassIntT implements IConstT {

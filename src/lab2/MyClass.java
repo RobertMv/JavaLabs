@@ -1,6 +1,6 @@
 package lab2;
 
-public class MyClass implements MyExceptions, SearchForNumbers{
+public class MyClass implements MyExceptions, SearchForNumbers {
     //номера исключительных ситуаций 10.  000011100
     //исключения: 3. Больше, чем некоторое число
     //            4. В массиве число элементов больше указанного
@@ -39,12 +39,12 @@ public class MyClass implements MyExceptions, SearchForNumbers{
         System.out.print("Наши числа подаваемые через аргументы args: ");
         for (String argument : args) {
             //обработка ошибок
-            if(Integer.parseInt(argument) > MAX_NUMBER) try {
+            if (Integer.parseInt(argument) > MAX_NUMBER) try {
                 throw new BiggerThanAnotherNumber();
             } catch (BiggerThanAnotherNumber biggerThanAnotherNumber) {
                 biggerThanAnotherNumber.printStackTrace();
             }
-            if(Integer.parseInt(argument) < MIN_NUMBER) try {
+            if (Integer.parseInt(argument) < MIN_NUMBER) try {
                 throw new LesserThanAnother();
             } catch (LesserThanAnother lesserThanAnother) {
                 lesserThanAnother.printStackTrace();
