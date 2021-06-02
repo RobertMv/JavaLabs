@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public abstract class Utils {
@@ -13,7 +13,7 @@ public abstract class Utils {
     // в клиенте указание адреса и порта сервера из файла настроек
     // указание порта для сервера из файла настроек
     // путь к журналу клиента из файла настроек
-    // путь к журналу сервера с консоли ввода приложения
+    // путь к журналу сервера из файла настроек
 
     /*
     Сервер возвращает клиенту результат выражения (допустимые операции «+», «-»).
@@ -43,18 +43,13 @@ public abstract class Utils {
     }
 
     static String calculate(String task) {
-//        ArrayList<String> splattedTask = new ArrayList<>();
-//        StringTokenizer stringTokenizer = new StringTokenizer(task, "+-*/=", true);
-//        while(stringTokenizer.hasMoreTokens())
-//            splattedTask.add(stringTokenizer.nextToken());
-//        Stack<Double> stack = new Stack<>();
 
         String[] operands = task.split("[+\\-*/=]");
         String[] operators = task.split("[0-9]+");
 
         double result = Double.parseDouble(operands[0]);
 
-        for (int i = 1; i < operands.length; i++){
+        for (int i = 1; i < operands.length; i++) {
             switch (operators[i]) {
                 case "+" -> result += Double.parseDouble(operands[i]);
                 case "-" -> result -= Double.parseDouble(operands[i]);
