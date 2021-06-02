@@ -1,0 +1,4 @@
+server-port:1010
+server-address:localhost
+journal-path-client:lab4journalClient.txt
+journal-path-server:lab4journalServer.txt
