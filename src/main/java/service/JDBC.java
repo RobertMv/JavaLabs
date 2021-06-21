@@ -60,8 +60,8 @@ public class JDBC {
 
     public void createClassroom(Classroom classroom) throws SQLException {
         sqlQuery = "INSERT INTO classrooms " +
-                "(building, room_number, square, user_id) " +
-                "values (?, ?, ?, ?)";
+                "(building, room_number, square, user_id, title) " +
+                "values (?, ?, ?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setInt(1, classroom.getBuilding());
         preparedStatement.setInt(2, classroom.getRoomNumber());
@@ -69,40 +69,98 @@ public class JDBC {
         preparedStatement.setInt(4, classroom.getUserId());
         preparedStatement.setString(5, classroom.getName());
         preparedStatement.executeUpdate();
-        connection.commit();
+        //connection.commit();
     }
 
 
-    public void createUser(User user) {
-
+    public void createUser(User user) throws SQLException {
+        sqlQuery = "INSERT INTO users " +
+                "(fio, position, phone, age) " +
+                "values(?, ?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1, user.getFio());
+        preparedStatement.setString(2, user.getPosition());
+        preparedStatement.setLong(3, user.getPhone());
+        preparedStatement.setInt(3, user.getAge());
+        preparedStatement.executeUpdate();
+        //connection.commit();
     }
 
 
-    public void deleteUser() {
-
+    public void deleteUser(int id) throws SQLException {
+        sqlQuery = "DELETE FROM users WHERE id=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, id);
+        preparedStatement.executeUpdate();
     }
 
 
-    public void deleteClassroom() {
-
+    public void deleteClassroom(int id) throws SQLException {
+        sqlQuery = "DELETE FROM classrooms WHERE id=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, id);
+        preparedStatement.executeUpdate();
     }
 
 
-    public void updateUser(User user) {
-
+    public void updateClassroom(Classroom classroom) throws SQLException {
+        sqlQuery = "UPDATE classrooms set building=?, " +
+                "room_number=?, square=?, user_id=?, title=? " +
+                "where id=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, classroom.getBuilding());
+        preparedStatement.setInt(2, classroom.getRoomNumber());
+        preparedStatement.setDouble(3, classroom.getSquare());
+        preparedStatement.setInt(4, classroom.getUserId());
+        preparedStatement.setString(5, classroom.getName());
+        preparedStatement.setInt(6, classroom.getId());
+        preparedStatement.executeUpdate();
     }
 
 
-    public void updateClassroom(Classroom classroom) {
+    public void updateUser(User user) throws SQLException {
+        sqlQuery = "UPDATE users set fio=?, " +
+                "position=?, phone=?, age=? " +
+                "where id=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setString(1, user.getFio());
+        preparedStatement.setString(2, user.getPosition());
+        preparedStatement.setLong(3, user.getPhone());
+        preparedStatement.setInt(4, user.getAge());
+        preparedStatement.setInt(6, user.getId());
+        preparedStatement.executeUpdate();
     }
 
 
-    public User getUserById(int id) {
-        return new User();
+    public User getUserById(int id) throws SQLException {
+        User user = new User();
+        sqlQuery = "SELECT * FROM users where id=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet  = statement.executeQuery(sqlQuery);
+        if (resultSet.next()){
+            user.setFio(resultSet.getString("fio"));
+            user.setPosition(resultSet.getString("position"));
+            user.setPhone(resultSet.getLong("phone"));
+            user.setAge(resultSet.getInt("age"));
+        }
+        return user;
     }
 
 
-    public Classroom getClassroomById(int id) {
-        return new Classroom();
+    public Classroom getClassroomById(int id) throws SQLException {
+        Classroom classroom = new Classroom();
+        sqlQuery = "SELECT * FROM classrooms where id=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet  = statement.executeQuery(sqlQuery);
+        if (resultSet.next()){
+            classroom.setBuilding(resultSet.getInt("building"));
+            classroom.setRoomNumber(resultSet.getInt("room_number"));
+            classroom.setSquare(resultSet.getDouble("square"));
+            classroom.setUserId(resultSet.getInt("user_id"));
+            classroom.setName(resultSet.getString("title"));
+        }
+        return classroom;
     }
 }

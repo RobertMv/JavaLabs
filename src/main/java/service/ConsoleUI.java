@@ -39,7 +39,7 @@ public abstract class ConsoleUI {
             case 1 -> {
                 int id = getIdMessage();
                 Classroom classroom = Service.getClassroomById(id);
-                System.out.println("entity.Classroom you've chosen: " + classroom);
+                System.out.println("Classroom you've chosen: " + classroom);
                 System.out.println("Input desired values for classroom in the next order: "
                         + "Building-number  Room-number  Square  User-id  Title\n");
                 act = new Scanner(System.in);
@@ -54,7 +54,7 @@ public abstract class ConsoleUI {
             case 2 -> {
                 int id = getIdMessage();
                 User user = Service.getUserById(id);
-                System.out.println("entity.User you've chosen: " + user);
+                System.out.println("User you've chosen: " + user);
                 System.out.println("Input desired values for user in the next order: "
                         + "Full-name Position Age\n");
                 act = new Scanner(System.in);
