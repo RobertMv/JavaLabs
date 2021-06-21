@@ -3,48 +3,68 @@ package service;
 import entity.Classroom;
 import entity.User;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 /**
  * Service class for processing results from database
  * and responding them to console UI
  */
-public abstract class Service {
+public class Service extends JDBC{
 
-    static void getClassrooms() {
+    JDBC jdbc = new JDBC();
 
+    void getClassrooms() throws SQLException {
+        ArrayList<Classroom> classrooms = jdbc.getAllClassrooms();
+        System.out.println("\nList of classrooms:");
+        classrooms.forEach(System.out::println);
     }
 
-    static void getUsers() {
-
+    void getUsers() throws SQLException {
+        ArrayList<User> users = jdbc.getAllUsers();
+        System.out.println("\nList of users:");
+        users.forEach(System.out::println);
     }
 
-    static void addUser(String fio, String position, int age) {
-
+    void addUser(String fio, String position, int age, Long phone) throws SQLException {
+        User user = new User(fio, position, phone, age);
+        jdbc.createUser(user);
+        System.out.println("User was added");
     }
 
-    static void addClassroom(int building, int roomNumber, Double square, int user, String name) {
-
+    void addClassroom(int building, int roomNumber, Double square, int user, String name) throws SQLException {
+        Classroom classroom = new Classroom(building, roomNumber, square, user, name);
+        jdbc.createClassroom(classroom);
+        System.out.println("Classroom was added");
     }
 
-    static void deleteUser(int id) {
-
+    void deleteUser(int id) throws SQLException {
+        jdbc.deleteUserById(id);
+        System.out.println("User has been deleted");
     }
 
-    static void deleteClassroom(int id) {
-
+    void deleteClassroom(int id) throws SQLException {
+        jdbc.deleteClassroomById(id);
+        System.out.println("Classroom has been deleted");
     }
 
-    static void updateUser(int id, String fio, String position, int age) {
-
+    void updateUser(int id, String fio, String position, int age, Long phone) throws SQLException {
+        User user = new User(id, fio, position, phone, age);
+        jdbc.updateUser(user);
+        System.out.println("User hac been updated");
     }
 
-    static User getUserById(int id) {
-        return new User();
+    User getUser(int id) throws SQLException {
+        return jdbc.getUserById(id);
     }
 
-    static Classroom getClassroomById(int id) {
-        return new Classroom();
+    Classroom getClassroom(int id) throws SQLException {
+        return jdbc.getClassroomById(id);
     }
 
-    public static void updateClassroom(int id, int building, int roomNumber, double square, int user, String field) {
+    public void updateClassroom(int id, int building, int roomNumber, double square, int user, String field) throws SQLException {
+        Classroom classroom = new Classroom(id, building, roomNumber, square, field, user);
+        jdbc.updateClassroom(classroom);
+        System.out.println("Classroom has been updated");
     }
 }

@@ -18,6 +18,14 @@ public class User {
         this.age = age;
     }
 
+    public User(int id, String fio, String position, Long phone, int age) {
+        this.id = id;
+        this.fio = fio;
+        this.position = position;
+        this.phone = phone;
+        this.age = age;
+    }
+
     public int getId() {
         return id;
     }
@@ -64,10 +72,12 @@ public class User {
                         "\n\tid: %s;" +
                         "\n\tfull-name: %s;" +
                         "\n\tposition: %s;" +
-                        "\n\tage: %s.\n",
+                        "\n\tage: %s" +
+                        "\n\tphone: %s.\n",
                 getId(),
                 getFio(),
                 getPosition(),
-                getAge());
+                getAge(),
+                getPhone());
     }
 }

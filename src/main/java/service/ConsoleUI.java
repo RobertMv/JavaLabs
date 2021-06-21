@@ -3,15 +3,17 @@ package service;
 import entity.Classroom;
 import entity.User;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 /**
  * Abstract class for representing console user interaction
  */
-public abstract class ConsoleUI {
-    static Scanner act = new Scanner(System.in);
+public class ConsoleUI {
+    private Scanner act = new Scanner(System.in);
+    private final Service service = new Service();
 
-    public static void start() {
+    public void start() throws SQLException {
 
         while (true) {
             System.out.println("\t\t\tMenu\n"
@@ -20,7 +22,7 @@ public abstract class ConsoleUI {
                     + "2. Add to table\n"
                     + "3. Delete from table\n"
                     + "4. Update in table\n"
-                    + "5. Exit\n");
+                    + "5. Exit");
 
             switch (act.nextInt()) {
                 case 1 -> menuActionRead();
@@ -33,18 +35,18 @@ public abstract class ConsoleUI {
         }
     }
 
-    private static void menuActionUpdate() {
+    private void menuActionUpdate() throws SQLException {
         chooseTable("update in");
         switch (act.nextInt()) {
             case 1 -> {
                 int id = getIdMessage();
-                Classroom classroom = Service.getClassroomById(id);
+                Classroom classroom = service.getClassroom(id);
                 System.out.println("Classroom you've chosen: " + classroom);
                 System.out.println("Input desired values for classroom in the next order: "
                         + "Building-number  Room-number  Square  User-id  Title\n");
                 act = new Scanner(System.in);
                 String[] fields = act.nextLine().split("  ");
-                Service.updateClassroom(id,
+                service.updateClassroom(id,
                         Integer.parseInt(fields[0]),
                         Integer.parseInt(fields[1]),
                         Double.parseDouble(fields[2]),
@@ -53,34 +55,35 @@ public abstract class ConsoleUI {
             }
             case 2 -> {
                 int id = getIdMessage();
-                User user = Service.getUserById(id);
+                User user = service.getUser(id);
                 System.out.println("User you've chosen: " + user);
                 System.out.println("Input desired values for user in the next order: "
-                        + "Full-name Position Age\n");
+                        + "Full-name  Position  Age  Phone\n");
                 act = new Scanner(System.in);
-                String[] fields = act.nextLine().split(" ");
-                Service.updateUser(id,
+                String[] fields = act.nextLine().split("  ");
+                service.updateUser(id,
                         fields[0],
                         fields[1],
-                        Integer.parseInt(fields[2]));
+                        Integer.parseInt(fields[2]),
+                        Long.parseLong(fields[3]));
             }
         }
     }
 
-    private static void menuActionDelete() {
+    private void menuActionDelete() throws SQLException {
         chooseTable("delete from");
         switch (act.nextInt()) {
-            case 1 -> Service.deleteClassroom(getIdMessage());
-            case 2 -> Service.deleteUser(getIdMessage());
+            case 1 -> service.deleteClassroom(getIdMessage());
+            case 2 -> service.deleteUser(getIdMessage());
         }
     }
 
-    private static int getIdMessage() {
+    private int getIdMessage() {
         System.out.print("Please specify an id of the element: ");
         return act.nextInt();
     }
 
-    private static void menuActionAdd() {
+    private void menuActionAdd() throws SQLException {
         chooseTable("add to");
         switch (act.nextInt()) {
             case 1 -> {
@@ -88,7 +91,7 @@ public abstract class ConsoleUI {
                         + "Building-number  Room-number  Square  User-id  Title\n");
                 act = new Scanner(System.in);
                 String[] fields = act.nextLine().split("  ");
-                Service.addClassroom(Integer.parseInt(fields[0]),
+                service.addClassroom(Integer.parseInt(fields[0]),
                         Integer.parseInt(fields[1]),
                         Double.parseDouble(fields[2]),
                         Integer.parseInt(fields[3]),
@@ -96,25 +99,26 @@ public abstract class ConsoleUI {
             }
             case 2 -> {
                 System.out.println("Input desired values for user in the next order: "
-                        + "Full-name Position Age\n");
+                        + "Full-name  Position  Age  Phone\n");
                 act = new Scanner(System.in);
-                String[] fields = act.nextLine().split(" ");
-                Service.addUser(fields[0],
+                String[] fields = act.nextLine().split("  ");
+                service.addUser(fields[0],
                         fields[1],
-                        Integer.parseInt(fields[2]));
+                        Integer.parseInt(fields[2]),
+                        Long.parseLong(fields[3]));
             }
         }
     }
 
-    private static void menuActionRead() {
+    private void menuActionRead() throws SQLException {
         chooseTable("read from");
         switch (act.nextInt()) {
-            case 1 -> Service.getClassrooms();
-            case 2 -> Service.getUsers();
+            case 1 -> service.getClassrooms();
+            case 2 -> service.getUsers();
         }
     }
 
-    private static void chooseTable(String s) {
+    private void chooseTable(String s) {
         System.out.printf("You've chosen to %s table, next - choose table\n"
                 + "1. Classrooms table\n"
                 + "2. Users table\n", s);

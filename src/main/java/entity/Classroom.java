@@ -20,6 +20,15 @@ public class Classroom {
         this.name = name;
     }
 
+    public Classroom(int id, int building, int roomNumber, Double square, String name, int userId) {
+        this.id = id;
+        this.building = building;
+        this.roomNumber = roomNumber;
+        this.square = square;
+        this.name = name;
+        this.userId = userId;
+    }
+
     public int getId() {
         return id;
     }
@@ -75,11 +84,13 @@ public class Classroom {
                         "\n\tbuilding-number: %s;" +
                         "\n\troom-number: %s;" +
                         "\n\tsquare: %s;" +
-                        "\n\tuser: %s.\n",
+                        "\n\tuser: %s" +
+                        "\n\ttitle: %s.\n",
                 getId(),
                 getBuilding(),
                 getRoomNumber(),
                 getSquare(),
-                getUserId());
+                getUserId(),
+                getName());
     }
 }

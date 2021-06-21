@@ -27,29 +27,29 @@ public class JDBC {
     }
 
 
-    public ArrayList<Classroom> getClassrooms() throws SQLException {
+    public ArrayList<Classroom> getAllClassrooms() throws SQLException {
         ArrayList<Classroom> classrooms = new ArrayList<>();
         sqlQuery = "SELECT * FROM classrooms";
         ResultSet results = statement.executeQuery(sqlQuery);
-        connection.commit();
         while (results.next()){
-            classrooms.add(new Classroom(results.getInt("building"),
+            classrooms.add(new Classroom(results.getInt("id"),
+                    results.getInt("building"),
                     results.getInt("room_number"),
                     results.getDouble("square"),
-                    results.getInt("user_id"),
-                    results.getString("title")));
+                    results.getString("title"),
+                    results.getInt("user_id")));
         }
         return classrooms;
     }
 
 
-    public ArrayList<User> getUsers() throws SQLException {
+    public ArrayList<User> getAllUsers() throws SQLException {
         ArrayList<User> users = new ArrayList<>();
         String sqlQuery = "SELECT * FROM users";
         ResultSet results = statement.executeQuery(sqlQuery);
-        connection.commit();
         while (results.next()){
-            users.add(new User(results.getString("fio"),
+            users.add(new User(results.getInt("id"),
+                    results.getString("fio"),
                     results.getString("position"),
                     results.getLong("phone"),
                     results.getInt("age")));
@@ -81,13 +81,13 @@ public class JDBC {
         preparedStatement.setString(1, user.getFio());
         preparedStatement.setString(2, user.getPosition());
         preparedStatement.setLong(3, user.getPhone());
-        preparedStatement.setInt(3, user.getAge());
+        preparedStatement.setInt(4, user.getAge());
         preparedStatement.executeUpdate();
         //connection.commit();
     }
 
 
-    public void deleteUser(int id) throws SQLException {
+    public void deleteUserById(int id) throws SQLException {
         sqlQuery = "DELETE FROM users WHERE id=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setInt(1, id);
@@ -95,7 +95,7 @@ public class JDBC {
     }
 
 
-    public void deleteClassroom(int id) throws SQLException {
+    public void deleteClassroomById(int id) throws SQLException {
         sqlQuery = "DELETE FROM classrooms WHERE id=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setInt(1, id);
@@ -127,7 +127,7 @@ public class JDBC {
         preparedStatement.setString(2, user.getPosition());
         preparedStatement.setLong(3, user.getPhone());
         preparedStatement.setInt(4, user.getAge());
-        preparedStatement.setInt(6, user.getId());
+        preparedStatement.setInt(5, user.getId());
         preparedStatement.executeUpdate();
     }
 
@@ -137,8 +137,9 @@ public class JDBC {
         sqlQuery = "SELECT * FROM users where id=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setInt(1, id);
-        ResultSet resultSet  = statement.executeQuery(sqlQuery);
+        ResultSet resultSet  = statement.executeQuery(String.valueOf(preparedStatement));
         if (resultSet.next()){
+            user.setId(resultSet.getInt("id"));
             user.setFio(resultSet.getString("fio"));
             user.setPosition(resultSet.getString("position"));
             user.setPhone(resultSet.getLong("phone"));
@@ -153,8 +154,9 @@ public class JDBC {
         sqlQuery = "SELECT * FROM classrooms where id=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
         preparedStatement.setInt(1, id);
-        ResultSet resultSet  = statement.executeQuery(sqlQuery);
+        ResultSet resultSet  = statement.executeQuery(String.valueOf(preparedStatement));
         if (resultSet.next()){
+            classroom.setId(resultSet.getInt("id"));
             classroom.setBuilding(resultSet.getInt("building"));
             classroom.setRoomNumber(resultSet.getInt("room_number"));
             classroom.setSquare(resultSet.getDouble("square"));

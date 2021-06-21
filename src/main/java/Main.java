@@ -25,9 +25,12 @@
 
 import service.ConsoleUI;
 
+import java.sql.SQLException;
+
 public class Main {
 
-    public static void main(String[] args) {
-        ConsoleUI.start();
+    public static void main(String[] args) throws SQLException {
+        ConsoleUI consoleUI = new ConsoleUI();
+        consoleUI.start();
     }
 }
