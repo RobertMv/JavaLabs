@@ -46,12 +46,16 @@ public class ConsoleUI {
                         + "Building-number  Room-number  Square  User-id  Title\n");
                 act = new Scanner(System.in);
                 String[] fields = act.nextLine().split("  ");
-                service.updateClassroom(id,
-                        Integer.parseInt(fields[0]),
-                        Integer.parseInt(fields[1]),
-                        Double.parseDouble(fields[2]),
-                        Integer.parseInt(fields[3]),
-                        fields[4]);
+                try {
+                    service.updateClassroom(id,
+                            Integer.parseInt(fields[0]),
+                            Integer.parseInt(fields[1]),
+                            Double.parseDouble(fields[2]),
+                            Integer.parseInt(fields[3]),
+                            fields[4]);
+                } catch (SQLException | NumberFormatException throwables) {
+                    throwables.printStackTrace();
+                }
             }
             case 2 -> {
                 int id = getIdMessage();
@@ -61,11 +65,15 @@ public class ConsoleUI {
                         + "Full-name  Position  Age  Phone\n");
                 act = new Scanner(System.in);
                 String[] fields = act.nextLine().split("  ");
-                service.updateUser(id,
-                        fields[0],
-                        fields[1],
-                        Integer.parseInt(fields[2]),
-                        Long.parseLong(fields[3]));
+                try {
+                    service.updateUser(id,
+                            fields[0],
+                            fields[1],
+                            Integer.parseInt(fields[2]),
+                            Long.parseLong(fields[3]));
+                } catch (SQLException | NumberFormatException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         }
     }
@@ -83,7 +91,7 @@ public class ConsoleUI {
         return act.nextInt();
     }
 
-    private void menuActionAdd() throws SQLException {
+    private void menuActionAdd() {
         chooseTable("add to");
         switch (act.nextInt()) {
             case 1 -> {
@@ -91,21 +99,29 @@ public class ConsoleUI {
                         + "Building-number  Room-number  Square  User-id  Title\n");
                 act = new Scanner(System.in);
                 String[] fields = act.nextLine().split("  ");
-                service.addClassroom(Integer.parseInt(fields[0]),
-                        Integer.parseInt(fields[1]),
-                        Double.parseDouble(fields[2]),
-                        Integer.parseInt(fields[3]),
-                        fields[4]);
+                try {
+                    service.addClassroom(Integer.parseInt(fields[0]),
+                            Integer.parseInt(fields[1]),
+                            Double.parseDouble(fields[2]),
+                            Integer.parseInt(fields[3]),
+                            fields[4]);
+                } catch (SQLException | NumberFormatException throwables) {
+                    throwables.printStackTrace();
+                }
             }
             case 2 -> {
                 System.out.println("Input desired values for user in the next order: "
                         + "Full-name  Position  Age  Phone\n");
                 act = new Scanner(System.in);
                 String[] fields = act.nextLine().split("  ");
-                service.addUser(fields[0],
-                        fields[1],
-                        Integer.parseInt(fields[2]),
-                        Long.parseLong(fields[3]));
+                try {
+                    service.addUser(fields[0],
+                            fields[1],
+                            Integer.parseInt(fields[2]),
+                            Long.parseLong(fields[3]));
+                } catch (SQLException | NumberFormatException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         }
     }
