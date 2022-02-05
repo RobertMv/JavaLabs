@@ -19,6 +19,7 @@ public class JDBC {
         try {
             connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
             statement = connection.createStatement();
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -244,5 +245,31 @@ public class JDBC {
             classroom.setName(resultSet.getString("title"));
         }
         return classroom;
+    }
+
+    protected ArrayList<Integer> getBuildingsByOrder() throws SQLException {
+        ArrayList<Integer> buildings = new ArrayList<>();
+        sqlQuery = "SELECT building FROM classrooms";
+        ResultSet results = statement.executeQuery(sqlQuery);
+        while (results.next()){
+            buildings.add(results.getInt("building"));
+        }
+        return buildings;
+    }
+
+    protected ArrayList<User> getUsersOrderedByAge(int age) throws SQLException {
+        ArrayList<User> youngUsers = new ArrayList<>();
+        sqlQuery = "SELECT * FROM users WHERE age<?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        preparedStatement.setInt(1, age);
+        ResultSet resultSet = statement.executeQuery(String.valueOf(preparedStatement));
+        while (resultSet.next()){
+            youngUsers.add(new User(resultSet.getInt("id"),
+                    resultSet.getString("fio"),
+                    resultSet.getString("position"),
+                    resultSet.getLong("phone"),
+                    resultSet.getInt("age")));
+        }
+        return youngUsers;
     }
 }

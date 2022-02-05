@@ -5,6 +5,7 @@ import entity.User;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Service class for processing results from database
@@ -66,5 +67,19 @@ public class Service extends JDBC{
         Classroom classroom = new Classroom(id, building, roomNumber, square, field, user);
         jdbc.updateClassroom(classroom);
         System.out.println("Classroom has been updated");
+    }
+
+    public void getYoungUsers(int age) throws SQLException {
+        ArrayList<User> youngUsers= jdbc.getUsersOrderedByAge(age);
+        System.out.println("Users younger than " + age + ": ");
+        youngUsers.forEach(System.out::println);
+    }
+
+    public void getBuildings() throws SQLException {
+        ArrayList<Integer> buildings = jdbc.getBuildingsByOrder();
+        Collections.sort(buildings);
+        System.out.print("Buildings of 'classrooms' table: ");
+        buildings.forEach(s -> System.out.print(s + " "));
+        System.out.println();
     }
 }

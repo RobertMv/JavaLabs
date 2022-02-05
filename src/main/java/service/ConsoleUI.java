@@ -22,17 +22,31 @@ public class ConsoleUI {
                     + "2. Add to table\n"
                     + "3. Delete from table\n"
                     + "4. Update in table\n"
-                    + "5. Exit");
+                    + "5. Get all buildings of 'classrooms' table\n"
+                    + "6. Get all users younger than..\n"
+                    + "7. Exit");
 
             switch (act.nextInt()) {
                 case 1 -> menuActionRead();
                 case 2 -> menuActionAdd();
                 case 3 -> menuActionDelete();
                 case 4 -> menuActionUpdate();
-                case 5 -> System.exit(0);
+                case 5 -> menuActionGetBuildings();
+                case 6 -> menuActionGetYoungUsers();
+                case 7 -> System.exit(0);
                 default -> System.out.println("Choose a number of action from the list above\n");
             }
         }
+    }
+
+    private void menuActionGetYoungUsers() throws SQLException {
+        System.out.print("Input age: ");
+        int age = act.nextInt();
+        service.getYoungUsers(age);
+    }
+
+    private void menuActionGetBuildings() throws SQLException {
+        service.getBuildings();
     }
 
     private void menuActionUpdate() throws SQLException {
